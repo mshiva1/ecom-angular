@@ -1,0 +1,43 @@
+.scaleup:hover {
+    /*scaleup products page*/
+    transform: scale(1.05);
+    z-index: 3;
+    border: 1px;
+}
+
+.filter-head {
+    font-weight: 600;
+}
+
+#filters {
+    /* filters, products page*/
+    top: 75px;
+}
+
+.slider-input {
+    width: 40%;
+}
+
+#slider-range {
+    width: 90%;
+    margin: 0 5%;
+}
+
+.name-of-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-lines: 2;
+}
+
+.card-title {
+    max-width: fit-content;
+}
+
+@media (max-width : 992px) {
+    #filters {
+        position: absolute;
+        z-index: auto;
+        top: 130px;
+    }
+}

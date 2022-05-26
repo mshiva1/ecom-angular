@@ -127,7 +127,6 @@ export class ProductsComponent implements OnInit {
         this.filter()
     }
     errorFun() {
-        console.log("error");
     }
 
     /*basic functions */

@@ -78,7 +78,6 @@
                                     [min]="minValue" (change)="sliderChanged()" name="h2">
                             </div>
                         </div>
-
                         <ngx-slider class="mt-3" [(value)]="minValue" [(highValue)]="maxValue" [options]="options"
                             (userChange)="sliderChanged()"></ngx-slider>
                         <div class="row">
@@ -97,46 +96,17 @@
                     <div>
                         <label class="filter-head h6">Avg Rating: </label>
                         <br>
-                        <button class="bg-light border-0 p-0" (click)="setRating(1)" type="button">
-                            <div *ngIf="!(filterRating>0)">
-                                <span class="material-icons-outlined icon-normal star-color"> star_border </span>
-                            </div>
-                            <div *ngIf="(filterRating>0)">
-                                <span class="material-icons-outlined icon-normal star-color"> star </span>
-                            </div>
-                        </button>
-                        <button class="bg-light border-0 p-0" (click)="setRating(2)" type="button">
-                            <div *ngIf="!(filterRating>1)">
-                                <span class="material-icons-outlined icon-normal star-color"> star_border </span>
-                            </div>
-                            <div *ngIf="(filterRating>1)">
-                                <span class="material-icons-outlined icon-normal star-color"> star </span>
-                            </div>
-                        </button>
-                        <button class="bg-light border-0 p-0" (click)="setRating(3)" type="button">
-                            <div *ngIf="!(filterRating>2)">
-                                <span class="material-icons-outlined icon-normal star-color"> star_border </span>
-                            </div>
-                            <div *ngIf="(filterRating>2)">
-                                <span class="material-icons-outlined icon-normal star-color"> star </span>
-                            </div>
-                        </button>
-                        <button class="bg-light border-0 p-0" (click)="setRating(4)" type="button">
-                            <div *ngIf="!(filterRating>3)">
-                                <span class="material-icons-outlined icon-normal star-color"> star_border </span>
-                            </div>
-                            <div *ngIf="(filterRating>3)">
-                                <span class="material-icons-outlined icon-normal star-color"> star </span>
-                            </div>
-                        </button>
-                        <button class="bg-light border-0 p-0" (click)="setRating(5)" type="button">
-                            <div *ngIf="!(filterRating>4)">
-                                <span class="material-icons-outlined icon-normal star-color"> star_border </span>
-                            </div>
-                            <div *ngIf="(filterRating>4)">
-                                <span class="material-icons-outlined icon-normal star-color"> star </span>
-                            </div>
-                        </button>
+                        <span *ngFor="let i of [1,2,3,4,5]">
+                            <button class="bg-light border-0 p-0" (click)="setRating(i)" type="button">
+                                <div *ngIf="!(filterRating>i-1)">
+                                    <span class="material-icons-outlined icon-normal star-color"> star_border </span>
+                                </div>
+                                <div *ngIf="(filterRating>i-1)">
+                                    <span class="material-icons-outlined icon-normal star-color"> star </span>
+                                </div>
+                            </button>
+                        </span>
+
                     </div>
                     <br>
                     <div class="border-top border-bottom">
@@ -146,9 +116,9 @@
                         </label>
                         <div class="collapse" id="all-brands">
                             <div *ngFor="let item of filterBrands">
-                                <input [(ngModel)]="item['checked']" type="checkbox" checked name="item"
-                                    (change)="filter()" value="item">
-                                <label [innerHTML]="item['brandName']"></label>
+                                <input [(ngModel)]="item['checked']" type="checkbox" [id]="item['brandName']" checked
+                                    [name]="item['brandName']" (change)="filter()" value="item">
+                                <label [innerHTML]="item['brandName']" for="{{item['brandName']}}" class="mx-1"></label>
                             </div>
                         </div>
                     </div>

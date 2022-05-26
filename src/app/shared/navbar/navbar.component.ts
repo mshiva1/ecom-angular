@@ -15,12 +15,11 @@ export class NavbarComponent implements OnInit {
   }
   constructor(public cart: CartServiceService, public validate: ValidateUserService, public router: Router) { }
   ngOnInit(): void {
-    console.log(this.validate.checkCurrentUser())
     if ((!this.validate.checkCurrentUser()) && this.router.url != '/') {
 
       window.alert("User is logged out now. Please login again")
       this.router.navigate(['/login']);
-    } console.log(this.router.url)
+    }
   }
 
   //done 

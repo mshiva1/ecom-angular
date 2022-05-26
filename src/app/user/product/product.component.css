@@ -1,0 +1,8 @@
+#product-name {
+    /*product name in product page*/
+    font-weight: 700;
+}
+
+.custom-product-image {
+    max-width: 250px;
+}

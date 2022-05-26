@@ -1,0 +1,21 @@
+#overlay {
+    /*overlay for filters, products page*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2021;
+    cursor: pointer;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#overlay-msg {
+    margin: 2% 5%;
+    background-color: white;
+    z-index: 2022;
+}
