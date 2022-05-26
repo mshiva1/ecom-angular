@@ -1,1 +1,331 @@
 /* You can add global styles to this file, and also import other style files */
+/* applicable to multiple pages */
+
+@import url("https://static.increff.com/fonts/increff-fonts/increff-client-icons/1.0.0/css/style.css");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+
+.container-custom {
+    padding: 68px 5% 0 5%;
+    color: #111111;
+    min-height: calc(100vh - 65px);
+}
+
+.btn {
+    z-index: 1;
+}
+
+img {
+    aspect-ratio: 1;
+}
+
+.material-icons-outlined {
+    font-size: unset;
+}
+
+.icon-large {
+    font-size: 24px;
+}
+
+.icon-normal {
+    font-size: 18px;
+    padding: 0;
+}
+
+.star-color {
+    color: #cccc00;
+}
+
+.custom-stick-top {
+    height: fit-content;
+
+    position: sticky;
+    top: 70px;
+    z-index: 2;
+}
+
+/* navbar and footer stuff */
+#logo {
+    width: auto;
+    height: 45px;
+    aspect-ratio: auto;
+}
+
+#footer-stub {
+    color: rgba(0, 0, 0, .5);
+    font-weight: 750;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-color: #e9f3ff;
+    z-index: 2;
+    padding: 0 5%;
+}
+
+nav {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.increff-logo {
+    font-size: xxx-large;
+    color: #ff6565;
+}
+
+.increff-text {
+    font-size: x-large;
+    color: #162c55;
+}
+
+.increff-image {
+    font-size: xxx-large;
+
+}
+
+#navbar-stub {
+    position: fixed;
+    color: rgba(0, 0, 0, .5);
+    font-weight: 750;
+    width: 100%;
+    height: 78px;
+    line-height: 60px;
+    background-color: #e9f3ff;
+    z-index: 100;
+    padding: 0 5%;
+}
+
+#cart-count {
+    font-size: 15px;
+    margin-left: -10px;
+}
+
+.navbar {
+    z-index: 5
+}
+
+/*single pages css*/
+.jumbotron {
+    background-color: #e9f3ff
+}
+
+.scaleup:hover {
+    /*scaleup products page*/
+    transform: scale(1.05);
+    z-index: 3;
+    border: 1px;
+}
+
+.filter-head {
+    font-weight: 600;
+}
+
+#filter-price .ngx-slider .ngx-slider-pointer {
+    background-color: 0db9f0;
+    width: 16px;
+    height: 16px;
+    top: -7px;
+}
+
+#filter-price .ngx-slider .ngx-slider-pointer:after {
+
+    height: 6px;
+    width: 6px;
+    top: 5px;
+    left: 5px;
+}
+
+#filters {
+    /* filters, products page*/
+    top: 75px;
+}
+
+.slider-input {
+    width: 40%;
+}
+
+#slider-range {
+    width: 90%;
+    margin: 0 5%;
+}
+
+.name-of-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-lines: 2;
+}
+
+#overlay {
+    /*overlay for filters, products page*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2021;
+    cursor: pointer;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#overlay-msg {
+    margin: 2% 5%;
+    background-color: white;
+    z-index: 2022;
+}
+
+.custom-product-image {
+    /*product image in product page*/
+    max-width: 250px;
+}
+
+.no-break {
+    white-space: nowrap;
+}
+
+.card-title {
+    max-width: fit-content;
+}
+
+.card {
+    width: 100%;
+}
+
+#product-name {
+    /*product name in product page*/
+    font-weight: 700;
+}
+
+.custom-bordered {
+    /* upload table ,upload page*/
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+/*modal*/
+.modal {
+    z-index: 1055;
+}
+
+/*media queries*/
+
+@media (max-width: 576px) {
+    .h3 {
+        font-size: 18px;
+    }
+
+    .h4 {
+        font-size: 15px;
+    }
+
+    .h5 {
+        font-size: 13px;
+    }
+
+    .h6,
+    footer {
+        font-size: 11px;
+    }
+
+    .container-custom {
+        font-size: 10px;
+    }
+
+    .icon-sm {
+        font-size: 11 px;
+    }
+}
+
+@media (min-width:576px) and (max-width: 768px) {
+    .h3 {
+        font-size: 20px;
+    }
+
+    .h4 {
+        font-size: 17px;
+    }
+
+    .h5 {
+        font-size: 15px;
+    }
+
+    .h6,
+    footer {
+        font-size: 13px;
+    }
+
+    .container-custom {
+        font-size: 12px;
+    }
+
+    .icon-sm {
+        font-size: 13px;
+    }
+}
+
+@media (min-width:768px) and (max-width: 992px) {
+    .h3 {
+        font-size: 22px;
+    }
+
+    .h4 {
+        font-size: 19px;
+    }
+
+    .h5 {
+        font-size: 16px;
+    }
+
+    .h6,
+    footer {
+        font-size: 13px;
+    }
+
+    .container-custom {
+        font-size: 12px;
+    }
+
+    .icon-sm {
+        font-size: 13px;
+    }
+}
+
+@media (min-width:992px) {
+    .h3 {
+        font-size: 24px;
+    }
+
+    .h4 {
+        font-size: 20px;
+    }
+
+    .h5 {
+        font-size: 17px;
+    }
+
+    .h6,
+    footer {
+        font-size: 14px;
+    }
+
+    .container-custom {
+        font-size: 12px;
+    }
+
+    .icon-sm {
+        font-size: 13px;
+    }
+}
+
+@media (max-width : 992px) {
+    #filters {
+        position: absolute;
+        z-index: auto;
+        top: 130px;
+    }
+}

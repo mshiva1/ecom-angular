@@ -1,0 +1,77 @@
+<div *ngIf="!product.id" class="text-center shadow-sm p-4">
+    This Link is broken . <a routerLink="/products">Click here to see all products</a>
+</div>
+<div *ngIf="product.id" class="row">
+    <div class="col-12 col-md-6 my-2 text-center">
+        <img class="" [src]="this.product['img']" alt="Card image" style="width:85%;">
+    </div>
+    <div class="col-12 col-md-6 my-lg-5 my-4">
+        <h3 class="h3 mx-2 my-1 text-weight-bold">
+            <span [innerHTML]="this.product.name" id="product-name"></span> <span
+                [innerHTML]="this.ratingService.getHtmlForRating(product.rating)"></span>
+        </h3>
+        <h4 class="h4 mx-2 my-lg-3 my-2">
+            Rs <span [innerHTML]="product.price"></span>
+        </h4>
+        <div class="mx-2 my-lg-3 my-3">
+            <div *ngIf="this.cart.getQuantity(UserId,this.product['id'])">
+                <div class="d-flex justify-content-start align-items-baseline">
+                    <button class="btn btn-sm btn-outline-primary p-0" (click)="decrement(product.id)" type="button">
+                        <span class="material-icons-outlined m-1 icon-sm">
+                            remove
+                        </span>
+                    </button>&nbsp;
+                    <button class="btn btn-sm disabled" type="button"
+                        [innerHTML]="this.cart.getQuantity(UserId,product.id)"></button>&nbsp;
+                    <button class="btn btn-sm btn-outline-primary p-0" (click)="increment(product.id)" type="button">
+                        <span class="material-icons-outlined m-1 icon-sm">
+                            add
+                        </span>
+                    </button>
+                    &nbsp;&nbsp;
+                    <button class="btn btn-sm btn-outline-danger p-0 " (click)="askConfirmRemove(product.id)"
+                        type="button">
+                        <span class="material-icons-outlined m-1 icon-sm">
+                            delete_outline
+                        </span>
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class=" p-0" routerLink="/cart">
+                        Go To Cart
+                    </a>
+                </div>
+            </div>
+            <div *ngIf="!this.cart.getQuantity(UserId,product.id)">
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-sm btn-outline-primary px-3 py-1 " (click)="increment(product.id)"
+                        type="button">
+                        Add to Cart
+                    </button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+
+        </div>
+        <div class="my-2 py-2">
+            <h5 class="h5 mx-2">Description:</h5>
+            <p class="mx-2" [innerHTML]="product.description" style="white-space: pre">
+            </p>
+        </div>
+    </div>
+</div>
+<ng-template #confirmRemove let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Confirm Remove</h4>
+    </div>
+    <div class="modal-body">
+        <p>{{product.name}} will be removed from cart
+            <span id="remove-item-name"></span>?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="modal.close('cancel')">Cancel</button>
+        <button type="button" data-dismiss="modal" class="btn btn-danger"
+            (click)="modal.close('confirm')">Confirm</button>
+    </div>
+</ng-template>

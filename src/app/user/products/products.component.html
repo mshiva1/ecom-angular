@@ -1,0 +1,231 @@
+<div class="row justify-content-between align-items-end">
+    <h3 class="h3 col-3 py-2 pr-2 my-1 my-md-3">Products</h3>
+    <div class="col-12 col-sm-8 col-md-8 col-lg-5 mx-sm-1 my-0 my-md-1">
+        <div class="row justify-content-between align-items-end p-1">
+            <div class="col-6 p-0">
+                <h6 class="h6 text-right m-0 p-2">
+                    Showing <span>{{displayProducts.length}}</span> Items
+                </h6>
+            </div>
+            <div class="d-block d-lg-none col-1 p-0 align-items-center">
+                <button class=" btn btn-sm btn-outline-secondary p-1" type=button (click)="toogle()">
+                    <span class="material-icons-outlined m-1 icon-sm">
+                        filter_alt
+                    </span>
+                </button>
+            </div>
+            <div class="col-4 col-lg-6 pl-0">
+                <select class="form-control p-0" style="font-size:small" type="string" [(ngModel)]="currentSortMethod"
+                    (ngModelChange)="sort()">
+                    <option *ngFor="let methods of SortMethods" [ngValue]="methods">{{methods}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row m-0 d-flex d-lg-none" id="display-filters">
+    <button class="btn btn-sm filter-button border bg-info text-white px-2" id="filter-price-display"
+        (click)="removeSpecificFilter('price')" *ngIf="minValue!=floor || maxValue!=ceil">
+        Price : {{minValue}} to {{maxValue}}
+        <span id="price-display">
+        </span>
+        &#10005;
+    </button>
+    <button class="btn btn-sm filter-button border bg-info text-white px-2" (click)="removeSpecificFilter('rating')"
+        *ngIf="filterRating>0">
+        Avg Rating :
+        {{filterRating}}
+        &#10005;
+    </button>
+    <button class="btn btn-sm filter-button border bg-info text-white px-2" (click)="removeSpecificFilter('brands')"
+        *ngIf="!uncheckedAll">
+        Brands :
+        <span *ngFor="let item of filterBrands">
+            <span *ngIf="item['checked']">
+                {{item['brandName']}}
+            </span>
+        </span>
+        &#10005;
+    </button>
+</div>
+<div class="row">
+    <div class="col-lg-2 col-12 d-lg-flex custom-stick-top justify-content-center py-2 pr-2 " id="filters"
+        style="z-index:auto" *ngIf="filterpopup">
+        <div class="row w-100 justify-content-center">
+            <div class="col-lg-12 col-md-6 col-sm-8 col-10 p-2 shadow-sm bg-light" style="z-index:6">
+                <div class="d-flex justify-content-between">
+                    <h5 class="h5 font-weight-bold">Filters</h5>
+                    <button class="btn btn-sm btn-outline-danger p-0" type="button" data-toggle="tooltip"
+                        data-placement="right" title="Remove All Filters" (click)="resetFilters()">
+                        <span class="m-1 icon-sm">
+                            <span class="fa-solid fa-filter-circle-xmark"></span>
+                        </span>
+                    </button>
+                </div>
+                <form>
+                    <div id="filter-price">
+                        <label for="prices" class="filter-head h6">Price:</label>
+                        <div class="row">
+                            <div class="col-5 pr-0">
+                                <input class="w-100 pl-3" type="number" [(ngModel)]="minValue" [max]="maxValue"
+                                    [min]="floor" (change)="sliderChanged()" (error)="errorFun()" name="h1">
+                            </div>
+                            <div class="col-2 p-0 text-center py-1">
+                                to
+                            </div>
+                            <div class=" col-5 pl-0">
+                                <input class="w-100 text-right" type="number" [(ngModel)]="maxValue" [max]="ceil"
+                                    [min]="minValue" (change)="sliderChanged()" name="h2">
+                            </div>
+                        </div>
+
+                        <ngx-slider class="mt-3" [(value)]="minValue" [(highValue)]="maxValue" [options]="options"
+                            (userChange)="sliderChanged()"></ngx-slider>
+                        <div class="row">
+                            <div class="col-6">
+                                Min:{{this.floor}}
+                            </div>
+                            <div class="col-6 text-right">
+                                Max:{{this.ceil}}
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <br>
+                    <div>
+                        <label class="filter-head h6">Avg Rating: </label>
+                        <br>
+                        <button class="bg-light border-0 p-0" (click)="setRating(1)" type="button">
+                            <div *ngIf="!(filterRating>0)">
+                                <span class="material-icons-outlined icon-normal star-color"> star_border </span>
+                            </div>
+                            <div *ngIf="(filterRating>0)">
+                                <span class="material-icons-outlined icon-normal star-color"> star </span>
+                            </div>
+                        </button>
+                        <button class="bg-light border-0 p-0" (click)="setRating(2)" type="button">
+                            <div *ngIf="!(filterRating>1)">
+                                <span class="material-icons-outlined icon-normal star-color"> star_border </span>
+                            </div>
+                            <div *ngIf="(filterRating>1)">
+                                <span class="material-icons-outlined icon-normal star-color"> star </span>
+                            </div>
+                        </button>
+                        <button class="bg-light border-0 p-0" (click)="setRating(3)" type="button">
+                            <div *ngIf="!(filterRating>2)">
+                                <span class="material-icons-outlined icon-normal star-color"> star_border </span>
+                            </div>
+                            <div *ngIf="(filterRating>2)">
+                                <span class="material-icons-outlined icon-normal star-color"> star </span>
+                            </div>
+                        </button>
+                        <button class="bg-light border-0 p-0" (click)="setRating(4)" type="button">
+                            <div *ngIf="!(filterRating>3)">
+                                <span class="material-icons-outlined icon-normal star-color"> star_border </span>
+                            </div>
+                            <div *ngIf="(filterRating>3)">
+                                <span class="material-icons-outlined icon-normal star-color"> star </span>
+                            </div>
+                        </button>
+                        <button class="bg-light border-0 p-0" (click)="setRating(5)" type="button">
+                            <div *ngIf="!(filterRating>4)">
+                                <span class="material-icons-outlined icon-normal star-color"> star_border </span>
+                            </div>
+                            <div *ngIf="(filterRating>4)">
+                                <span class="material-icons-outlined icon-normal star-color"> star </span>
+                            </div>
+                        </button>
+                    </div>
+                    <br>
+                    <div class="border-top border-bottom">
+                        <label class="dropdown-toggle filter-head h6" data-toggle="collapse" href="#all-brands"
+                            role="button" aria-expanded="false" aria-controls="all-brands">
+                            Brands
+                        </label>
+                        <div class="collapse" id="all-brands">
+                            <div *ngFor="let item of filterBrands">
+                                <input [(ngModel)]="item['checked']" type="checkbox" checked name="item"
+                                    (change)="filter()" value="item">
+                                <label [innerHTML]="item['brandName']"></label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col col-lg-10 ">
+        <div class="row pr-3 pl-2">
+            <div class=" col-lg-3 col-md-4 col-sm-6 col-12 h-100 scaleup p-0 m-0" *ngFor="let  item of displayProducts">
+
+                <div class="row justify-content-center m-0 h-100">
+                    <div class="card border-0 shadow-sm m-2 h-100">
+                        <a class="text-center" [routerLink]="['/product']" [queryParams]="{'id':item.id}">
+                            <img alt=" Card image" class="custom-product-image card-img-top w-100 m-auto"
+                                [src]=item.img>
+                        </a>
+                        <div class="card-body" style="max-width:100%">
+                            <a [routerLink]="['/product']" [queryParams]="{'id':item.id}" class="text-dark">
+                                <h4 class="h4 card-title p-0 m-0 name-of-item">{{item.name}}</h4>
+                            </a>
+                            <div class="d-flex justify-content-between py-2">
+                                <span>
+                                    Rs : <span class="card-text">{{item.price}}</span>
+                                </span>
+                                <span id="rating-0" [innerHTML]=getHTMLRating(item.rating)>
+                                </span>
+                            </div>
+                            <div *ngIf="this.cart.getQuantity(UserId , item.id)">
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-sm btn-outline-primary p-0" (click)="decrement(item.id)"
+                                        type="button">
+                                        <span class="material-icons-outlined m-1 icon-sm">
+                                            remove
+                                        </span>
+                                    </button>&nbsp;
+                                    <button class="btn btn-sm disabled py-0 px-2"
+                                        type="button">{{this.cart.getQuantity(UserId , item.id)}}</button>&nbsp;
+                                    <button class="btn btn-sm btn-outline-primary p-0" (click)="increment(item.id)"
+                                        type="button">
+                                        <span class="material-icons-outlined m-1 icon-sm">
+                                            add
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!this.cart.getQuantity(UserId , item.id)">
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-sm btn-outline-primary px-1 py-0 "
+                                        (click)="increment(item.id)" type="button">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="filterpopback"
+    style="width:100%;height:100%;background-color: #808080;z-index:2;position: fixed;top:0;left:0" (click)="toogle()">
+</div>
+<ng-template #confirmRemove let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Confirm Remove</h4>
+    </div>
+    <div class="modal-body">
+        <p>{{removeProduct.name}} will be removed from cart?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="modal.close('cancel')">Cancel</button>
+        <button type="button" data-dismiss="modal" class="btn btn-danger"
+            (click)="modal.close('confirm')">Confirm</button>
+    </div>
+</ng-template>

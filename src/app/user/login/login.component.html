@@ -1,0 +1,47 @@
+<div class="h-100 w-100 position-fixed align-items-center d-flex" style="top:0;left:0">
+    <div class="row justify-content-center w-100 m-0">
+        <div class="col-11 col-md-9 col-lg-7">
+            <div class="row justify-content-center">
+                <span
+                    class="text-center px-0 m-0 my-md-3 jumbotron col-10 col-sm-4 text-nowrap shadow-sm border rounded-0">
+                    <span class="increff-client-icons increff-image"></span>
+                </span>
+                <form class="form col-10 my-sm-3 p-2 col-sm-7 form-inline shadow-sm border" id="login-form"
+                    (submit)="login()">
+                    <div class="row">
+                        <div class="col-12 p-1">
+                            <div class="row m-0">
+                                <label class="col-sm-4 col-12 justify-content-between" for="username">Username</label>
+                                <div class="col-sm-8 col ">
+                                    <input class="form-control w-100" type="text" [(ngModel)]="username" name="username"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 p-1">
+                            <div class="row m-0">
+                                <label class="col-sm-4 col-12 justify-content-between" for="password">Password</label>
+                                <div class="col-sm-8 col ">
+                                    <input class="form-control w-100" type="password" [(ngModel)]="password"
+                                        name="password" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 p-1">
+                            <div class="row m-0">
+                                <div class="col-8 text-danger align-self-center">
+                                    <div *ngIf="wrong_cred">
+                                        Wrong credentials
+                                    </div>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button class="btn btn-primary" form="login-form" type="submit">Login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

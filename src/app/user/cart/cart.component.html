@@ -1,0 +1,147 @@
+<h3 class="h3 pt-2 pr-2 mt-3">Cart</h3>
+<div *ngIf="!this.cart.getTotalQuantity(UserId)" class="text-center shadow-sm py-4 m-0">
+    <img src="assets/resources/images/empty_cart.png" style="width:10%;aspect-ratio:1">
+    <br><br>
+    There are no Items in Cart . <a routerLink="/products">Click here to add products</a>
+</div>
+<div *ngIf="this.cart.getTotalQuantity(UserId)" class="row m-0">
+    <div class="col col-lg-8  py-2 px-0 my-0">
+        <div class="items-in-cart my-2" *ngFor="let item of this.cart.getCart(UserId) | keyvalue">
+            <div class="d-flex col-12 align-items-center shadow-sm py-lg-2 px-lg-3">
+                <div class="col-2 px-0">
+                    <img class="cart-image" alt="Card image" [src]="this.products_list.getProduct(item.key).img"
+                        style="width:100%">
+                </div>
+                <div class="col-6 px-1">
+                    <a [routerLink]="['/product']" [queryParams]="{'id':item.key}" class="h5"
+                        [innerHTML]="this.products_list.getProduct(item.key).name">
+                    </a>
+                    <h6 class="h6">
+                        Rs <span [innerHTML]="this.products_list.getProduct(item.key).price">
+                        </span>
+                    </h6>
+                </div>
+                <div class="col-4 pl-0 h-100 pr-2">
+                    <div class="row m-0 h-100" style="justify-content: space-between;">
+                        <div class="col-12 text-right p-0 m-1">
+                            <button class="btn btn-sm btn-outline-danger  p-0" type="button"
+                                (click)="askConfirmRemove(item.key)">
+                                <span class="material-icons-outlined m-1 icon-sm">
+                                    delete_outline
+                                </span>
+                            </button>
+                        </div>
+                        <div class="col-12 text-right p-0 m-1">
+                            <button class="btn btn-sm btn-outline-primary  p-0" type="button"
+                                (click)="decrement(item.key)">
+                                <span class="material-icons-outlined m-1 icon-sm">
+                                    remove
+                                </span>
+                            </button>
+                            <button class="btn btn-sm disabled font-weight-bold  px-2 py-0" type="button"
+                                [innerHTML]="item.value">
+                            </button>
+                            <button class="btn btn-sm btn-outline-primary  p-0" type="button"
+                                (click)="increment(item.key)">
+                                <span class="material-icons-outlined m-1 icon-sm">
+                                    add
+                                </span>
+                            </button>
+                        </div>
+                        <div class="m-1">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4  custom-stick-top my-0 pl-lg-4 p-0 ">
+        <div class=" my-3 p-3 bg-light">
+            <h4 class="h4 row justify-content-between m-0">
+                <span>Summary</span>
+                <span>
+                    <button class="btn btn-sm btn-outline-danger p-0" type="button" data-toggle="tooltip"
+                        data-placement="left" data-animate="true" title="Clear Cart" (click)="askConfirmClear()">
+                        <span class="material-icons-outlined m-1 icon-sm">
+                            remove_shopping_cart
+                        </span>
+                    </button>
+                </span>
+            </h4>
+            <div class="my-3 align-items-bottom h5">
+                <div class="row m-0">
+                    <div class="col-8 p-0">Total Quantity </div>
+                    <div class="col-4 p-0">
+                        <div class="d-flex justify-content-between">
+                            <span>:</span>
+                            <span [innerHTML]="this.cart.getTotalQuantity(UserId)"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-0">
+                    <div class="col-8 p-0">Total Amount </div>
+                    <div class="col-4 p-0">
+                        <div class="d-flex justify-content-between">
+
+                            <span>: </span>
+                            <span> Rs
+                                <span [innerHTML]="this.cart.getTotalAmount(UserId)">
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right my-2">
+                    <button class="btn btn btn-success my-2" (click)="checkOut()">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #confirmRemove let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Confirm Remove</h4>
+    </div>
+    <div class="modal-body">
+        <p>{{removeProduct.name}} will be removed from cart?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="modal.close('cancel')">Cancel</button>
+        <button type="button" data-dismiss="modal" class="btn btn-danger"
+            (click)="modal.close('confirm')">Confirm</button>
+    </div>
+</ng-template>
+<ng-template #confirmClear let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Confirm Clear Cart</h4>
+    </div>
+    <div class="modal-body">
+        <p>All items will be removed from cart ?
+        </p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="modal.close('cancel')">Cancel</button>
+        <button type="button" data-dismiss="modal" class="btn btn-danger"
+            (click)="modal.close('confirm')">Confirm</button>
+    </div>
+</ng-template>
+<ng-template #checkOutSuccess let-modal>
+    <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+        <div class="justify-content-center d-flex">
+            <img src="assets/resources/images/tick_mark.png" style="width:75%;aspect-ratio:1">
+        </div>
+        <h5 class="h5 d-flex justify-content-center">Order has been placed</h5>
+        <h6 class="h6 d-flex justify-content-center"><a routerLink="/products"
+                (click)="modal.dismiss('Cross click')">Click here to add new products</a></h6>
+    </div>
+</ng-template>

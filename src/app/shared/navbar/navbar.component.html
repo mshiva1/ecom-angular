@@ -1,0 +1,35 @@
+<div *ngIf="this.router.url!='/login'" id="navbar-stub">
+    <nav class="navbar navbar-expand navbar-light container-fluid-sm px-0">
+        <a class="" routerLink="/products">
+            <span class="increff-client-icons increff-image my-1 text-dark"></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="d-flex collapse navbar-collapse">
+            <ul class="col-12 px-0 navbar-nav justify-content-end">
+                <li class="nav-item active" data-toggle="tooltip" data-placement="top" title="Upload Order">
+                    <a class="nav-link" routerLink="/upload">
+                        <span class="material-icons-outlined m-1 icon-large">file_upload</span>
+                    </a>
+                </li>
+                <li class="nav-item active" data-toggle="tooltip" data-placement="top" title="Cart">
+                    <a class="nav-link" routerLink="/cart">
+                        <span class="material-icons-outlined m-1 icon-large">shopping_cart</span>
+                        <sub>
+                            <span class="badge badge-warning"
+                                id="cart-count">{{this.cart.getTotalQuantity(this.validate.getCurrentUser())}}</span>
+                        </sub>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <button class="nav-link pr-0 bg-transparent border-0" (click)="logout()" data-toggle="tooltip"
+                        data-placement="top" title="Logout">
+                        <span class="material-icons-outlined icon-large m-1">logout</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
