@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ValidateUserService } from 'src/app/services/validate-user.service';
 
@@ -17,9 +18,10 @@ export class LoginComponent implements OnInit {
     if (!isValid)
       this.wrong_cred = !this.wrong_cred;
   }
-  constructor(private router: Router, private validate: ValidateUserService) { }
+  constructor(private router: Router, private validate: ValidateUserService, private title: Title) { }
 
   ngOnInit(): void {
+    this.title.setTitle("Login");
     if (this.validate.checkCurrentUser())
       this.router.navigate(['/products']);
   }

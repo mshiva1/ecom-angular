@@ -5,7 +5,7 @@ import { NotifierService } from 'angular-notifier';
 })
 export class NotifyService {
 
-  notify(msg: string, type: string, delay: number, id: string) {
+  notify(msg: string, type: string, delay: number, id: string): void {
     this.notifier.notify(type, msg, id)
   }
   constructor(private notifier: NotifierService) {

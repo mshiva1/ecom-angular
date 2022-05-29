@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import products from "src/assets/resources/json/products.json";
+import { productData } from '../shared/models/product-data';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -7,11 +9,11 @@ export class GetProductService {
 
   products_list = products;
   //gets all products
-  getAllProducts() {
+  getAllProducts(): productData[] {
     return this.products_list;
   }
   //gets specific product
-  getProduct(ProductId: any) {
+  getProduct(ProductId: any): productData {
     for (let item of this.products_list) {
       if (item.id == ProductId)
         return item;

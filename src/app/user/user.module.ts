@@ -21,7 +21,7 @@ import { LoginComponent } from './login/login.component';
     CommonModule,
     RouterModule,
     FormsModule,
-    NgxSliderModule,
+    NgxSliderModule
   ],
 })
 export class UserModule { }

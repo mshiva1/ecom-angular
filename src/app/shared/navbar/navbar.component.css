@@ -1,0 +1,47 @@
+/* navbar and footer stuff */
+#logo {
+    width: auto;
+    height: 45px;
+    aspect-ratio: auto;
+}
+
+nav {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+
+.increff-image {
+    font-size: xxx-large;
+}
+
+#navbar-stub {
+    position: fixed;
+    color: rgba(0, 0, 0, .5);
+    font-weight: 750;
+    width: 100%;
+    height: 78px;
+    line-height: 60px;
+    background-color: #e9f3ff;
+    z-index: 100;
+    padding: 0 5%;
+}
+
+#cart-count {
+    font-size: 15px;
+    margin-left: -10px;
+}
+
+.navbar {
+    z-index: 5
+}
+
+.no-break {
+    white-space: nowrap;
+}
+
+.card {
+    width: 100%;
+}

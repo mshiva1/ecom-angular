@@ -3,12 +3,10 @@
 <div>
     <div class="container-custom">
         <router-outlet></router-outlet>
-        <router-outlet name="rt"></router-outlet>
         <notifier-container></notifier-container>
     </div>
 </div>
 <div *ngIf="(!this.validate.checkCurrentUser()) && (this.router.url!= '/login')">
-
     <div id="overlay" (click)="this.router.navigate(['/login'])">
         <div class="alert text-center" id="overlay-msg">
             You have been logged out... but Dont worry! Your Current Data has been saved.
@@ -16,7 +14,6 @@
             Click anywhere to login again
         </div>
     </div>
-
 </div>
 
 <app-footer></app-footer>

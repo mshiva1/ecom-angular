@@ -35,8 +35,7 @@ const routes: Routes = [
   {
     path: '**',
     component: ProductsComponent,
-    canActivate: [AuthGuard],
-    outlet: 'rt'
+    canActivate: [AuthGuard]
   }
 ];
 

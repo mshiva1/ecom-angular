@@ -10,7 +10,7 @@ export class CartServiceService {
       return presentCart[userId];
     }
   }
-  getQuantity(userId: string, productId: number) {
+  getQuantity(userId: string, productId: number): number {
     let localCart = localStorage.getItem("cart")
     if (localCart != null) {
       let presentCart = JSON.parse(localCart)
@@ -20,7 +20,7 @@ export class CartServiceService {
     }
     return -1;
   }
-  getTotalQuantity(userId: string) {
+  getTotalQuantity(userId: string): number {
     let localCart = localStorage.getItem("cart")
     let currentUserTotal = 0;
     if (localCart != null) {
@@ -33,7 +33,7 @@ export class CartServiceService {
     }
     return 0;
   }
-  getTotalAmount(userId: string) {
+  getTotalAmount(userId: string): number {
     let localCart = localStorage.getItem("cart")
     let currentUserTotal = 0;
     if (localCart != null) {
@@ -46,7 +46,7 @@ export class CartServiceService {
     }
     return 0;
   }
-  incrementQuantity(userId: string, productId: number) {
+  incrementQuantity(userId: string, productId: number): void {
     let localCart = localStorage.getItem("cart")
     if (localCart != null) {
       let presentCart = JSON.parse(localCart)
@@ -54,46 +54,36 @@ export class CartServiceService {
       if (initial == undefined) initial = 0;
       presentCart[userId][productId] = initial + 1;
       localStorage.setItem("cart", JSON.stringify(presentCart));
-      return initial + 1;
     }
-    return 0;
   }
-  decrementQuantity(userId: string, productId: number) {
+  decrementQuantity(userId: string, productId: number): void {
     let localCart = localStorage.getItem("cart")
     if (localCart != null) {
       let presentCart = JSON.parse(localCart)
       let initial: number = presentCart[userId][productId];
       if (initial == undefined) initial = 0;
-      if (initial <= 0) return -1;
+      if (initial <= 0) return;
       presentCart[userId][productId] = initial - 1;
       localStorage.setItem("cart", JSON.stringify(presentCart));
-      return initial - 1;
     }
-    return 0;
   }
-  removeProduct(userId: string, productId: number) {
+  removeProduct(userId: string, productId: number): void {
     let localCart = localStorage.getItem("cart")
     if (localCart != null) {
       let presentCart = JSON.parse(localCart)
       let initial: number = presentCart[userId][productId];
       if (initial == undefined) initial = 0;
-      if (initial < 0) return -1;
+      if (initial < 0) return;
       delete presentCart[userId][productId];
       localStorage.setItem("cart", JSON.stringify(presentCart));
-      return 0;
     }
-    return 0;
   }
-  removeAll(userId: string) {
+  removeAll(userId: string): void {
     let localCart = localStorage.getItem("cart")
     let currentUserTotal = 0;
     if (localCart != null) {
       let presentCart = JSON.parse(localCart);
-      let currentUserCart: { [key: number]: number } = presentCart[userId];
-      for (const key in currentUserCart) {
-        currentUserCart[key] = 0;
-      }
-      presentCart[userId] = currentUserCart;
+      presentCart[userId] = {};
       localStorage.setItem("cart", JSON.stringify(presentCart));
     }
   }

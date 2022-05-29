@@ -7,7 +7,7 @@ import passwords from "src/assets/resources/json/passwords.json"
 })
 export class ValidateUserService {
   private currentPasswords = passwords;
-  loginUser(username: string, password: string) {
+  loginUser(username: string, password: string): boolean {
     for (let item of this.currentPasswords) {
       if (item.username == username && item.password == password) {
         localStorage.setItem("currentUser", username)
@@ -16,18 +16,18 @@ export class ValidateUserService {
           presentCart[username] = {};
           localStorage.setItem("cart", JSON.stringify(presentCart))
         }
-
         this.router.navigate(['/products'])
       }
     }
     return false;
   }
-  logoutUser() {
+
+  logoutUser(): void {
     localStorage.removeItem("currentUser")
     this.router.navigate(['/login'])
   }
 
-  checkCurrentUser() {
+  checkCurrentUser(): boolean {
     let currentUser = localStorage.getItem("currentUser");
     if (currentUser == undefined)
       return false;
@@ -37,7 +37,7 @@ export class ValidateUserService {
     }
     return false;
   }
-  getCurrentUser() {
+  getCurrentUser(): string {
     let currentUser = localStorage.getItem("currentUser");
     if (currentUser != undefined) {
       for (let item of this.currentPasswords) {

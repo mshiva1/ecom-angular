@@ -6,7 +6,9 @@ import { GetRatingHtmlService } from 'src/app/services/get-rating-html.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgModel } from '@angular/forms';
 import { ValidateUserService } from 'src/app/services/validate-user.service';
-
+import { Title } from '@angular/platform-browser';
+import { productData } from 'src/app/shared/models/product-data';
+declare var $: any;
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -16,9 +18,9 @@ import { ValidateUserService } from 'src/app/services/validate-user.service';
 export class ProductComponent implements OnInit {
 
 
-  UserId = this.validate.getCurrentUser();
-  productId = 0;
-  product = this.products_list.getProduct(this.productId);
+  UserId: string = this.validate.getCurrentUser();
+  productId: number = 0;
+  product: productData = this.products_list.getProduct(this.productId);
   increment(productId: any) {
     this.cart.incrementQuantity(this.UserId, productId)
   }
@@ -51,7 +53,7 @@ export class ProductComponent implements OnInit {
     if (reason == "confirm")
       this.remove(this.productId)
   }
-  constructor(private route: ActivatedRoute, public products_list: GetProductService, public ratingService: GetRatingHtmlService, public cart: CartServiceService, private modalService: NgbModal, private validate: ValidateUserService) {
+  constructor(private route: ActivatedRoute, public products_list: GetProductService, public ratingService: GetRatingHtmlService, public cart: CartServiceService, private modalService: NgbModal, private validate: ValidateUserService, private title: Title) {
     this.route.queryParams
       .subscribe(params => {
         this.productId = params['id']
@@ -60,6 +62,13 @@ export class ProductComponent implements OnInit {
       )
   }
   ngOnInit(): void {
+    if (this.product.id == 0)
+      this.title.setTitle("Product not Found");
+    else
+      this.title.setTitle(this.product.name);
+    $(document).ready(() => {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
   }
   //done
 }

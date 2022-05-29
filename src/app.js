@@ -1,8 +1,6 @@
 import("https://kit.fontawesome.com/be3a23fc60.js");
 
 
-
-
 /*
 async function loadAll() {
     await import("https://storage.googleapis.com/static.increff.com/jquery/3.6.0/jquery-3.6.0.min.js");

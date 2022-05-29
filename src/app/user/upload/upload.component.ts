@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { GetProductService } from 'src/app/services/get-product.service';
 import { Papa } from 'ngx-papaparse';
 import { NotifyService } from 'src/app/services/notify.service';
-
+import { Title } from '@angular/platform-browser';
+import { productData } from 'src/app/shared/models/product-data';
+import { UploadDatatype } from 'src/app/shared/models/upload-data-type';
+declare var $: any;
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -14,9 +17,9 @@ export class UploadComponent implements OnInit {
   file = null;
   filename = "Choose File"
   dataPresent = false;
-  displayData: any;
-  error = "";
-  errorFlag = false;
+  displayData: UploadDatatype[] = [];
+  error: string = "";
+  errorFlag: boolean = false;
   total = {
     quantity: 0,
     price: 0
@@ -47,7 +50,7 @@ export class UploadComponent implements OnInit {
       return;
     }
     var data = results.data
-    var addedQuantityData = [];
+    var addedQuantityData: UploadDatatype[] = [];
     this.errorFlag = false;
     var errorsArray = [];
     for (let item of data) {
@@ -79,7 +82,7 @@ export class UploadComponent implements OnInit {
           }
           else
             addedQuantityData.push({
-              id: item.ID,
+              id: parseInt(item.ID),
               img: current.img,
               name: current.name,
               price: current.price,
@@ -139,8 +142,12 @@ export class UploadComponent implements OnInit {
     this.file = file.files[0];
   }
 
-  constructor(public papa: Papa, public products_list: GetProductService, public notify: NotifyService) { }
+  constructor(public papa: Papa, public products_list: GetProductService, public notify: NotifyService, private title: Title) { }
   ngOnInit(): void {
+    this.title.setTitle("Upload Order");
+    $(document).ready(() => {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
   }
   //done
 }

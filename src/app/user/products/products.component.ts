@@ -6,7 +6,9 @@ import { Options } from '@angular-slider/ngx-slider';
 import { NgModel } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ValidateUserService } from 'src/app/services/validate-user.service';
-
+import { Title } from '@angular/platform-browser';
+import { productData } from 'src/app/shared/models/product-data';
+declare var $: any;
 @Component({
     selector: 'app-products',
     templateUrl: './products.component.html',
@@ -21,13 +23,21 @@ export class ProductsComponent implements OnInit {
         this.filterpopup = !this.filterpopup || window.matchMedia('(min-width: 992px)').matches;
     }
     /*Sort Methods and current Sorting Method*/
-    currentSortMethod = "Rating";
-    SortMethods = [
+    currentSortMethod: string = "Rating"; //initial sort method is rating
+    SortMethods: string[] = [
         "Rating",
         "Low to High",
         "High to Low"
     ];
-    uncheckedAll = true;
+    sort() {
+        if (this.currentSortMethod == "Low to High") this.displayProducts.sort((a, b) => a.price - b.price)
+        else if (this.currentSortMethod == "High to Low") this.displayProducts.sort((a, b) => b.price - a.price)
+        else this.displayProducts.sort((a, b) => b.rating - a.rating)
+    }
+
+    //filters
+    uncheckedAll: boolean = true;
+    //if all checkboxes are unchecked then this function sets uncheckedAll flag
     setUnchecked() {
         for (let item of this.filterBrands) {
             if (item.checked)
@@ -35,20 +45,32 @@ export class ProductsComponent implements OnInit {
         }
         return true;
     }
-    sort() {
-        if (this.currentSortMethod == "Low to High") this.displayProducts.sort((a, b) => a.price - b.price)
-        else if (this.currentSortMethod == "High to Low") this.displayProducts.sort((a, b) => b.price - a.price)
-        else this.displayProducts.sort((a, b) => b.rating - a.rating)
-    }
 
     /*currently showing products*/
-    currentProducts = this.products_list.getAllProducts()
-    displayProducts = this.products_list.getAllProducts()
+    currentProducts: productData[] = this.products_list.getAllProducts()
+    displayProducts: productData[] = this.products_list.getAllProducts()
     /*filters */
     filterBrands: any;
-    filterRating = 0;
+    filterRating: number = 0;
 
-    initAllBrands(all_products: any[]) {
+    ceil: number = 0;
+    floor: number = 0;
+    options: Options = {
+        boundPointerLabels: true,
+        hidePointerLabels: true,
+        hideLimitLabels: true,
+        floor: this.floor,
+        ceil: this.ceil,
+        step: 1,
+        enforceStep: false,
+        enforceRange: false,
+    };
+    minValue: number = this.floor;
+    maxValue: number = this.ceil;
+
+
+    //initiate filters 
+    initFilters(all_products: any[]) {
         var allBrandsSet = new Set();
         all_products.forEach((element) => {
             if (element.price > this.ceil) this.ceil = element.price
@@ -64,12 +86,13 @@ export class ProductsComponent implements OnInit {
         this.options.ceil = this.ceil
         this.maxValue = this.ceil
     }
-
+    //set filter rating to 'rating'
     setRating(rating: number) {
         this.filterRating = rating;
         this.filter()
     }
 
+    //filters all products based on curent filter data
     filter() {
         this.uncheckedAll = this.setUnchecked()
         this.displayProducts = []
@@ -107,28 +130,11 @@ export class ProductsComponent implements OnInit {
         this.filter();
         this.sort();
     }
-
-    ceil = 0;
-    floor = 0;
-    options: Options = {
-        boundPointerLabels: true,
-        hidePointerLabels: true,
-        hideLimitLabels: true,
-        floor: this.floor,
-        ceil: this.ceil,
-        step: 1,
-        enforceStep: false,
-        enforceRange: false,
-    };
-    minValue: number = this.floor;
-    maxValue: number = this.ceil;
-
+    //function called when slider is changed
     sliderChanged() {
         this.filter()
     }
-    errorFun() {
-    }
-
+    errorFun() { }
     /*basic functions */
     getHTMLRating(rating: Number) {
         return this.user.getHtmlForRating(rating);
@@ -152,6 +158,8 @@ export class ProductsComponent implements OnInit {
         }
         this.openConfirmRemove(this.confirmRemove)
     }
+
+    //confimrmation data
     removeProduct = {
         id: 0,
         name: ""
@@ -171,12 +179,15 @@ export class ProductsComponent implements OnInit {
             this.remove(this.removeProduct.id)
     }
 
-    constructor(private user: GetRatingHtmlService, public cart: CartServiceService, public products_list: GetProductService, private modalService: NgbModal, private validate: ValidateUserService) {
+    constructor(private user: GetRatingHtmlService, public cart: CartServiceService, public products_list: GetProductService, private modalService: NgbModal, private validate: ValidateUserService, private title: Title) {
     }
     ngOnInit(): void {
+        this.title.setTitle("Products");
         this.sort()
-        this.initAllBrands(this.currentProducts)
-
+        this.initFilters(this.currentProducts);
+        $(document).ready(() => {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     }
-    //TODO : optimize , filter for price, 0-checkbox filter for brands, (filter,sort) retain
+    //TODO  (filter,sort) retain
 }

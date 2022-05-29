@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartServiceService } from 'src/app/services/cart-service.service';
 import { ValidateUserService } from 'src/app/services/validate-user.service';
-
+declare var $: any;
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
       window.alert("User is logged out now. Please login again")
       this.router.navigate(['/login']);
     }
+    console.log($('[data-toggle="tooltip"]'))
   }
 
   //done 

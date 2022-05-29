@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgModel } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Papa } from 'ngx-papaparse';
 import { CartServiceService } from 'src/app/services/cart-service.service';
 import { GetProductService } from 'src/app/services/get-product.service';
 import { ValidateUserService } from 'src/app/services/validate-user.service';
+declare var $: any;
 
 @Component({
   selector: 'app-cart',
@@ -13,7 +15,7 @@ import { ValidateUserService } from 'src/app/services/validate-user.service';
 })
 export class CartComponent implements OnInit {
 
-  UserId = this.validate.getCurrentUser();
+  UserId: string = this.validate.getCurrentUser();
   increment(productId: any) {
     this.cart.incrementQuantity(this.UserId, productId);
   }
@@ -115,8 +117,12 @@ export class CartComponent implements OnInit {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
-  constructor(public cart: CartServiceService, public products_list: GetProductService, public papa: Papa, private modalService: NgbModal, private validate: ValidateUserService) { }
+  constructor(public cart: CartServiceService, public products_list: GetProductService, public papa: Papa, private modalService: NgbModal, private validate: ValidateUserService, private title: Title) { }
   ngOnInit(): void {
+    this.title.setTitle("Cart");
+    $(document).ready(() => {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
   }
   //done
 }

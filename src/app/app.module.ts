@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { UserModule } from './user/user.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotifierModule } from 'angular-notifier';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { CartServiceService } from './services/cart-service.service';
@@ -19,7 +18,6 @@ import { CartServiceService } from './services/cart-service.service';
     AppRoutingModule,
     SharedModule,
     UserModule,
-    NgbModule,
     NgxSliderModule,
     NotifierModule.withConfig({
       position: {
