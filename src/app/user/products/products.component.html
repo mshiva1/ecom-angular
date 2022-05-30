@@ -38,9 +38,9 @@
         &#10005;
     </button>
     <button class="btn btn-sm filter-button border bg-info text-white px-2" (click)="removeSpecificFilter('brands')"
-        *ngIf="!uncheckedAll">
+        *ngIf="this.checkedBrands.size">
         Brands :
-        <span *ngFor="let item of filterBrands">
+        <span *ngFor="let item of allBrands">
             <span *ngIf="item['checked']">
                 {{item['brandName']}}
             </span>
@@ -115,10 +115,13 @@
                             Brands
                         </label>
                         <div class="collapse" id="all-brands">
-                            <div *ngFor="let item of filterBrands">
-                                <input [(ngModel)]="item['checked']" type="checkbox" [id]="item['brandName']" checked
-                                    [name]="item['brandName']" (change)="filter()" value="item">
-                                <label [innerHTML]="item['brandName']" for="{{item['brandName']}}" class="mx-1"></label>
+                            <div *ngFor="let item of allBrands">
+
+                                <input type="checkbox" [id]="item" [name]="item"
+                                    (change)="changeCheckBrand(item,$any($event.target).checked)" [value]="item">
+                                <label [innerHTML]="item" [for]="item" class="mx-1"></label>
+
+
                             </div>
                         </div>
                     </div>

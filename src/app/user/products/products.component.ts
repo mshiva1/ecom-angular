@@ -36,21 +36,23 @@ export class ProductsComponent implements OnInit {
     }
 
     //filters
-    uncheckedAll: boolean = true;
-    //if all checkboxes are unchecked then this function sets uncheckedAll flag
-    setUnchecked() {
-        for (let item of this.filterBrands) {
-            if (item.checked)
-                return false
-        }
-        return true;
-    }
+
+    currentProducts: productData[] = this.products_list.getAllProducts()
 
     /*currently showing products*/
-    currentProducts: productData[] = this.products_list.getAllProducts()
     displayProducts: productData[] = this.products_list.getAllProducts()
+
     /*filters */
-    filterBrands: any;
+    changeCheckBrand(brandName: string, checkValue: any) {
+        if (checkValue)
+            this.checkedBrands.add(brandName)
+        else
+            this.checkedBrands.delete(brandName)
+        this.filter()
+    }
+
+    checkedBrands: Set<string> = new Set;
+    allBrands: any[] = [];
     filterRating: number = 0;
 
     ceil: number = 0;
@@ -76,13 +78,7 @@ export class ProductsComponent implements OnInit {
             if (element.price > this.ceil) this.ceil = element.price
             allBrandsSet.add(element["brand"]);
         })
-        this.filterBrands = [];
-        allBrandsSet.forEach((element) => {
-            this.filterBrands.push({
-                brandName: element,
-                checked: false     //this checked gets updated when user checks or unchecks brand boxes
-            });
-        })
+        this.allBrands = Array.from(allBrandsSet)
         this.options.ceil = this.ceil
         this.maxValue = this.ceil
     }
@@ -94,12 +90,13 @@ export class ProductsComponent implements OnInit {
 
     //filters all products based on curent filter data
     filter() {
-        this.uncheckedAll = this.setUnchecked()
         this.displayProducts = []
         this.currentProducts.forEach((element) => {
             if (
                 //brands check
-                (this.uncheckedAll || this.filterBrands.find((brand: any) => { return brand["brandName"] == element["brand"] })["checked"]) &&
+                (!this.checkedBrands.size ||
+                    this.checkedBrands.has(element.brand))
+                &&
                 //check for min rating
                 element.rating >= this.filterRating
                 &&
@@ -108,11 +105,28 @@ export class ProductsComponent implements OnInit {
             )
                 this.displayProducts.push(element)
         });
-        this.sort()
+        this.sort();
+        var filterObject = {
+            brands: "",
+            priceMin: 0,
+            priceMax: 0,
+            rating: 0
+        }
+
+        if (1
+        ) {
+            filterObject.brands = JSON.stringify(Array.from(this.checkedBrands))
+            filterObject.priceMax = this.maxValue
+            filterObject.priceMin = this.minValue
+            filterObject.rating = this.filterRating
+            sessionStorage.setItem("filters", JSON.stringify(filterObject))
+        }
+        console.log(filterObject)
+
     }
 
     resetFilters() {
-        this.filterBrands.forEach((element: any) => { element["checked"] = false });
+        this.checkedBrands = new Set;
         this.filterRating = 0;
         this.minValue = this.floor;
         this.maxValue = this.ceil;
@@ -122,7 +136,7 @@ export class ProductsComponent implements OnInit {
         if (filter == "rating")
             this.filterRating = 0;
         else if (filter == "brands")
-            this.filterBrands.forEach((element: any) => { element["checked"] = false });
+            this.checkedBrands = new Set;
         else if (filter == "price") {
             this.minValue = this.floor;
             this.maxValue = this.ceil;
@@ -178,16 +192,36 @@ export class ProductsComponent implements OnInit {
         if (reason == "confirm")
             this.remove(this.removeProduct.id)
     }
+    checkLocalStorageForFilters() {
+        var prevFilter = sessionStorage.getItem("filters")
+        if (prevFilter == null) {
+            this.minValue = 0;
+            this.maxValue = this.ceil;
+            this.checkedBrands = new Set()
+            this.filterRating = 0;
+            return;
+        }
+        var filters = JSON.parse(prevFilter);
+        console.log(filters)
+        this.maxValue = filters.priceMax;
+        this.minValue = filters.priceMin;
+        this.checkedBrands = new Set(JSON.parse(filters.brands));
+        this.setRating(filters.rating)
+        console.log(this.minValue, this.maxValue)
+        this.filter()
+    }
+
 
     constructor(private user: GetRatingHtmlService, public cart: CartServiceService, public products_list: GetProductService, private modalService: NgbModal, private validate: ValidateUserService, private title: Title) {
     }
     ngOnInit(): void {
         this.title.setTitle("Products");
-        this.sort()
         this.initFilters(this.currentProducts);
+        this.checkLocalStorageForFilters();
+        this.sort()
         $(document).ready(() => {
             $('[data-toggle="tooltip"]').tooltip()
         })
     }
-    //TODO  (filter,sort) retain
+    //TODO  (filter,sort) retain refresh
 }
